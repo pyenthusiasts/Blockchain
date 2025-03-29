@@ -9,7 +9,7 @@ from cryptography.hazmat.primitives.asymmetric import ec
 from cryptography.hazmat.primitives import serialization
 from cryptography.exceptions import InvalidSignature
 
-
+ 
 class Blockchain:
     def __init__(self):
         self.transactions = []
