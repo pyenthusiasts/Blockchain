@@ -12,7 +12,7 @@ with open("requirements.txt", "r", encoding="utf-8") as fh:
 
 setup(
     name="blockchain-core",
-    version="1.0.0",
+    version="2.0.0",
     author="Python Enthusiasts",
     author_email="",
     description="A simple but comprehensive blockchain implementation in Python",
