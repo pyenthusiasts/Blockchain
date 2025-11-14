@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  blockchain:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: blockchain-app
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ./wallets:/app/wallets
+    environment:
+      - PYTHONUNBUFFERED=1
+      - LOG_LEVEL=INFO
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
+    networks:
+      - blockchain-network
+
+  blockchain-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: blockchain-dev
+    volumes:
+      - .:/app
+      - /app/__pycache__
+      - /app/blockchain_core/__pycache__
+    environment:
+      - PYTHONUNBUFFERED=1
+      - LOG_LEVEL=DEBUG
+    ports:
+      - "5001:5000"
+    command: /bin/bash
+    stdin_open: true
+    tty: true
+    networks:
+      - blockchain-network
+
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: blockchain-tests
+    volumes:
+      - .:/app
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: pytest -v --cov=blockchain_core
+    networks:
+      - blockchain-network
+
+networks:
+  blockchain-network:
+    driver: bridge
+
+volumes:
+  data:
+  logs:
+  wallets:
